@@ -1,0 +1,662 @@
+##
+##  BASIC MATRIX/VECTOR OPERATIONS  %%
+##
+##
+## Define a vector/Matrix/n-D Array: NO MEMORY ALLOCATION IS REQUIRED 
+##
+## A row vector
+##
+a = [1, 2, 4, -7]
+a =
+
+   1   2   4  -7
+
+pause
+##
+## Or a column vector (use ';' between rows)
+##
+b = [1; 2; 4; -7]
+b =
+
+   1
+   2
+   4
+  -7
+
+pause
+##
+## or using tranpose:
+##
+c = [1, 2, 4, -7]'
+c =
+
+   1
+   2
+   4
+  -7
+
+pause
+home
+##
+## Pull out individual elements, ranges, etc:
+##
+b (2)
+ans =  2
+## the 'end' operator is very useful!
+a (end)
+ans = -7
+pause
+home
+##
+## NOTE: without a semicolon the end of a line or command, the results are output
+## to the screen.  
+## With a semicolon, output is suppressed -- usually what you want.
+## 
+## (ALSO SEE 'help display' and 'help fprintf')
+##
+pause
+home
+##
+## List the variables in the workspace
+##
+who
+Variables in the current scope:
+
+a    ans  b    c
+
+pause;
+##
+## List the variables with their sizes
+##
+whos
+Variables in the current scope:
+
+   Attr Name        Size                     Bytes  Class
+   ==== ====        ====                     =====  ===== 
+        a           1x4                         32  double
+        ans         1x1                          8  double
+        b           4x1                         32  double
+        c           4x1                         32  double
+
+Total is 13 elements using 104 bytes
+
+pause
+home
+##
+## Saving data:
+##
+save ('data.mat', 'a', 'b', 'c')
+pause
+home
+##
+## Clear a variable from memory 
+##
+clear ('b')
+whos
+Variables in the current scope:
+
+   Attr Name        Size                     Bytes  Class
+   ==== ====        ====                     =====  ===== 
+        a           1x4                         32  double
+        ans         1x1                          8  double
+        c           4x1                         32  double
+
+Total is 9 elements using 72 bytes
+
+pause;
+home
+##
+## Loading a variable from a saved file
+##
+who
+Variables in the current scope:
+
+a    ans  c
+
+load ('data.mat', 'b')
+who
+Variables in the current scope:
+
+a    ans  b    c
+
+pause
+home
+##
+## Check to see if a file exists or a variable is defined
+## Return value specifies if the argument is a var, file, etc.
+##
+exist ('b')
+ans =  1
+exist ('blah')
+ans = 0
+exist ('b', 'file')
+ans = 0
+exist ('matlab_ops_tutorial')
+ans = 0
+pause
+home
+##
+## Shell commands - using '!'
+## (Note that '!' does not mean NOT like in C!!!)
+##
+
+##!dir
+##!copy data.mat data_backup.mat
+pause
+home
+##
+## A simple matrix
+##
+A = [1, 2; 3, 4]
+A =
+
+   1   2
+   3   4
+
+pause;
+clear ('b')
+home;
+##
+## Defining rows or columns of a matrix
+##  ':' means 'all'
+
+## 
+## first row of matrix b is a
+##
+b (1, :) = a
+b =
+
+   1   2   4  -7
+
+##
+## and second row is defined manually
+##
+b (2, :) = [9, 5, -3, 2]
+b =
+
+   1   2   4  -7
+   9   5  -3   2
+
+##
+## and let's reassign the third column
+##
+b (:, 3) = [10; 4]
+b =
+
+    1    2   10   -7
+    9    5    4    2
+
+pause
+home;
+##
+## Can also show a variable's contents with
+## display (shows variable name)
+## disp (just shows contents)
+display (b)
+b =
+
+    1    2   10   -7
+    9    5    4    2
+
+disp (b)
+    1    2   10   -7
+    9    5    4    2
+pause;
+home;
+##
+## Defining Ranges using FROM:INCR:TO notation
+##
+x = 1:10
+x =
+
+    1    2    3    4    5    6    7    8    9   10
+
+y = 100:-15:1
+y =
+
+   100    85    70    55    40    25    10
+
+pause;
+home;
+##
+## A vector to index a matrix
+##
+b
+b =
+
+    1    2   10   -7
+    9    5    4    2
+
+ind = [1, 3];
+c = b (:, ind)
+c =
+
+    1   10
+    9    4
+
+pause
+home;
+##
+## Delete the second column of b
+##
+b
+b =
+
+    1    2   10   -7
+    9    5    4    2
+
+b (:, 2) = []
+b =
+
+    1   10   -7
+    9    4    2
+
+pause;
+home;
+##
+## Get the Size of the matrix b (SEE 'help size & 'help length')
+##
+[rowsB, colsB] = size (b)
+rowsB =  2
+colsB =  3
+pause
+home;
+##
+## Convert the matrix into a column vector
+##
+b
+b =
+
+    1   10   -7
+    9    4    2
+
+b = b (:)
+b =
+
+    1
+    9
+   10
+    4
+   -7
+    2
+
+pause;
+home
+b
+b =
+
+    1
+    9
+   10
+    4
+   -7
+    2
+
+##
+## Want to make b size [2 x 3] again
+##
+b = reshape (b, [rowsB, colsB])
+b =
+
+    1   10   -7
+    9    4    2
+
+pause;
+## Find the maximum of b in each col (SEE 'help max')
+##
+maxColVal = max (b)
+maxColVal =
+
+    9   10    2
+
+pause
+##
+##  Find the maximum of b in each row
+##
+maxRowVal = max (b, [], 2)
+maxRowVal =
+
+   10
+    9
+
+pause
+home
+##
+## Find the maximum of b
+##
+maxB = max (max (b))
+maxB =  10
+##
+## or use the column trick:
+##
+maxB = max (b (:))
+maxB =  10
+pause
+home;
+##
+## Find the sum of all the elements (SEE help 'sum')
+##
+sumB = sum (sum (b))
+sumB =  19
+##
+## or with the column trick again:
+##
+sumB = sum (b (:))
+sumB =  19
+##
+## Similarly 'help prod' for products
+##
+pause;
+home;
+##
+## 'repmat' is also very useful for repeating matrices:
+##
+a = [1, 2, 3]'
+a =
+
+   1
+   2
+   3
+
+repmat (a, [1, 10])
+ans =
+
+   1   1   1   1   1   1   1   1   1   1
+   2   2   2   2   2   2   2   2   2   2
+   3   3   3   3   3   3   3   3   3   3
+
+pause;
+home;
+##
+## Matrix multiplication
+##
+A = [1, 2, 3; 4, 5, 6; 7, 8, 9]
+A =
+
+   1   2   3
+   4   5   6
+   7   8   9
+
+b (3, :) = [4, 2, -1]
+b =
+
+    1   10   -7
+    9    4    2
+    4    2   -1
+
+A * b
+ans =
+
+    31    24    -6
+    73    72   -24
+   115   120   -42
+
+pause
+## 
+## Element-by-element multiplication:
+##
+A .* b
+ans =
+
+    1   20  -21
+   36   20   12
+   28   16   -9
+
+pause
+home
+##
+## 'Element-by-element' is also important for division
+## and exponents
+##
+A .^ 3
+ans =
+
+     1     8    27
+    64   125   216
+   343   512   729
+
+A ./ b
+ans =
+
+   1.00000   0.20000  -0.42857
+   0.44444   1.25000   3.00000
+   1.75000   4.00000  -9.00000
+
+pause
+home
+##
+## Computing the Singular Value Decomposition:
+##
+[U, S, V] = svd (b)
+U =
+
+  -0.81702   0.56588  -0.11072
+  -0.50000  -0.79093  -0.35276
+  -0.28719  -0.23285   0.92914
+
+S =
+
+Diagonal Matrix
+
+   13.5024         0         0
+         0    9.3981         0
+         0         0    1.1663
+
+V =
+
+  -0.47886  -0.79632   0.36956
+  -0.79575   0.21593  -0.56582
+   0.37077  -0.56502  -0.73707
+
+##
+## NOTES: 
+## 1. The representation is slightly different from the one
+##   which will be shown in the class but it does NOT matter
+##
+## 2. (BIG CAVEAT!!) The matrix V is actually V of SVD, not V' 
+##
+pause;
+home;
+##
+## Computing eigenvalues and eigenvectors
+##
+[V, D] = eig (b)
+V =
+
+   0.55039 + 0.00000i   0.62548 + 0.00000i   0.62548 - 0.00000i
+   0.77594 + 0.00000i  -0.61595 - 0.02505i  -0.61595 + 0.02505i
+   0.30821 + 0.00000i  -0.46988 - 0.08927i  -0.46988 + 0.08927i
+
+D =
+
+Diagonal Matrix
+
+   11.1782 +  0.0000i                    0                    0
+                    0   -3.5891 +  0.5985i                    0
+                    0                    0   -3.5891 -  0.5985i
+
+pause
+home
+##
+## Special Matrices (arguments indicate size):
+##
+
+## Identity:
+eye (3)
+ans =
+
+Diagonal Matrix
+
+   1   0   0
+   0   1   0
+   0   0   1
+
+##
+## All ones:
+##
+ones (4, 3)
+ans =
+
+   1   1   1
+   1   1   1
+   1   1   1
+   1   1   1
+
+##
+## All zeros:
+##
+zeros (2, 5)
+ans =
+
+   0   0   0   0   0
+   0   0   0   0   0
+
+pause
+home
+##
+## Generating random values
+##
+
+##
+## Uniform random values between 0 and 1
+##
+rand (3)
+ans =
+
+   0.3384041   0.0097800   0.4786818
+   0.1949155   0.2886010   0.6023586
+   0.2610635   0.1837810   0.7287259
+
+## ans =
+## 
+##     0.8147    0.9134    0.2785
+##     0.9058    0.6324    0.5469
+##     0.1270    0.0975    0.9575
+
+## Random values ~ N(0,1)
+##
+randn (1, 20)
+ans =
+
+ Columns 1 through 8:
+
+   0.13443   0.80691  -0.18160   0.81027  -0.67740   0.90932  -0.93832  -1.26116
+
+ Columns 9 through 16:
+
+  -1.09268   0.20920   0.62790  -0.76685   1.19121   0.51421   0.16276   1.54958
+
+ Columns 17 through 20:
+
+   0.23047  -0.36517  -0.46870   0.33579
+
+## 
+## ans =
+## 
+##   Columns 1 through 8
+## 
+##     2.7694   -1.3499    3.0349    0.7254   -0.0631    0.7147   -0.2050   -0.1241
+## 
+##   Columns 9 through 16
+## 
+##     1.4897    1.4090    1.4172    0.6715   -1.2075    0.7172    1.6302    0.4889
+## 
+##   Columns 17 through 20
+## 
+##     1.0347    0.7269   -0.3034    0.2939
+
+##
+##  There are MANY more built-in functions, not to mention
+##  toolboxes.  If your questions is "Can Matlab do __X__ ?", 
+##  The answer is almost always YES!!
+##
+##  Other things to check out:
+##   cells, structs, squeeze, round, hist, meshgrid, and HELP!!
+##
+echo ('off')
+>> help randn
+'randn' is a built-in function from the file libinterp/corefcn/rand.cc
+
+ -- randn (N)
+ -- randn (M, N, ...)
+ -- randn ([M N ...])
+ -- V = randn ("state")
+ -- randn ("state", V)
+ -- randn ("state", "reset")
+ -- V = randn ("seed")
+ -- randn ("seed", V)
+ -- randn ("seed", "reset")
+ -- randn (..., "single")
+ -- randn (..., "double")
+     Return a matrix with normally distributed random elements having
+     zero mean and variance one.
+
+     The arguments are handled the same as the arguments for 'rand'.
+
+     By default, 'randn' uses the Marsaglia and Tsang "Ziggurat
+     technique" to transform from a uniform to a normal distribution.
+
+     The class of the value returned can be controlled by a trailing
+     "double" or "single" argument.  These are the only valid classes.
+
+     Reference: G. Marsaglia and W.W. Tsang, 'Ziggurat Method for
+     Generating Random Variables', J. Statistical Software, vol 5, 2000,
+     <http://www.jstatsoft.org/v05/i08/>
+
+     See also: rand, rande, randg, randp.
+
+Additional help for built-in functions and operators is
+available in the online version of the manual.  Use the command
+'doc <topic>' to search the manual index.
+
+Help and information about Octave is also available on the WWW
+at http://www.octave.org and via the help@octave.org
+mailing list.
+>> clear
+>> clc
+>> randN(5)
+error: 'randN' undefined near line 1 column 1
+>> randn(5)
+ans =
+
+  -0.413129   0.769928  -0.826351  -0.563677   2.339775
+  -0.365595  -0.059808  -0.583812   0.864952   0.599948
+  -1.188061  -0.285915   0.744499   0.778340   0.419628
+   0.750990  -0.710936   1.088539  -0.381521   1.191705
+  -1.803732  -1.548030   0.356966  -0.161361  -1.086901
+
+>> randn(2,3)
+ans =
+
+  -1.420250   0.352318  -0.462375
+  -0.811217  -0.341499  -0.057487
+
+>> randn(1,20)
+ans =
+
+ Columns 1 through 9:
+
+   0.624852  -0.073404   2.751881  -1.143927  -1.206892   1.683105  -0.689776  -0.494391   0.854255
+
+ Columns 10 through 18:
+
+  -0.996515   0.175510   1.412994  -0.036368  -1.333866   0.394432   0.185202  -1.304101   0.953105
+
+ Columns 19 and 20:
+
+   0.130911  -0.591169
+
+>> disp (ans);
+ Columns 1 through 9:
+
+   0.624852  -0.073404   2.751881  -1.143927  -1.206892   1.683105  -0.689776  -0.494391   0.854255
+
+ Columns 10 through 18:
+
+  -0.996515   0.175510   1.412994  -0.036368  -1.333866   0.394432   0.185202  -1.304101   0.953105
+
+ Columns 19 and 20:
+
+   0.130911  -0.591169
+>> exit
+
